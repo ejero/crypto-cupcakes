@@ -38,10 +38,21 @@ app.use(express.urlencoded({extended:true}));
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
-
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+  console.log(req.oidc.user);
+  const userIndfo = req.oidc.user;
+
+  const welcomeMesage = `
+  <h1>My Web App, Inc<br></h1> 
+  <h1>Weclome, ${req.oidc.nickname} Emakpo <br></h1>
+  <h5>Username: ${req.oidc.user.nickname}<br></h5>
+  <p>${req.oidc.user.name}</p>
+  <img src=${req.oidc.user.picture} >
+  `
+
+
+  res.send(req.oidc.isAuthenticated() ? welcomeMesage : 'Logged out');
 });
 
 
