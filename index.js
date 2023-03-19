@@ -38,6 +38,20 @@ app.use(express.urlencoded({extended:true}));
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
+app.use(async (req, res, next) => {
+  const user = req.oidc.user;
+  if(user){
+    const [newUser] = await User.findOrCreate({
+      where: {email: user.email},
+      defaults: user
+    })
+  }
+  console.log(user);
+  next()
+});
+
+
+
 // req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
   console.log(req.oidc.user);
