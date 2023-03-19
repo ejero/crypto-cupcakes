@@ -21,7 +21,7 @@ app.use(express.urlencoded({extended:true}));
   // attach Auth0 OIDC auth router
   // create a GET / route handler that sends back Logged in or Logged out
   const {
-    AUTH0_SECRET, AUTH0_AUDIENCE='http://localhost:3000', AUTH0_CLIENT_ID, AUTH0_BASE_URL} = process.env;
+    AUTH0_SECRET, AUTH0_AUDIENCE, AUTH0_CLIENT_ID, AUTH0_DOMAIN} = process.env;
   
 
   const { auth } = require('express-openid-connect');
@@ -32,7 +32,7 @@ app.use(express.urlencoded({extended:true}));
     secret: AUTH0_SECRET,
     baseURL: AUTH0_AUDIENCE,
     clientID: AUTH0_CLIENT_ID,
-    issuerBaseURL: AUTH0_BASE_URL,
+    issuerBaseURL: AUTH0_DOMAIN,
   };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
